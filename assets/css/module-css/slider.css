@@ -359,7 +359,7 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    opacity: .10;
+    opacity: .20;
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-transition: opacity 1500ms ease-in, -webkit-transform 7000ms ease;
