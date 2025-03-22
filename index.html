@@ -358,9 +358,9 @@
                 </div>
                 <div class="donation-one__logo-and-title">
                   <div class="donation-one__logo">
-                    <a href="#">
+                    <!-- <a href="#">
                       <img src="assets/images/resources/aliff-logo.png" style="width: 250px !important" alt="" />
-                    </a>
+                    </a> -->
                   </div>
                   <h2 class="donation-one__left-title">Help us do more</h2>
                 </div>
@@ -387,38 +387,43 @@
                       </h3>
                       <div class="error-message"></div>
                       <div class="donation-one__donate-box">
-                        <button class="amount-btn-1">
-                          <span>₹</span>100
-                        </button>
+                        <!-- <button class="amount-btn-1 amount-btn" style="padding: 15px 20px;">
+                          ₹100
+                        </button> -->
                         <div class="donate-amount">
                           <input type="text" id="donate-amount" class="addAmount-value" placeholder="Custom Amount" />
-                          <button class="amount-btn">₹3,000</button>
-                          <button class="amount-btn">₹4,000</button>
+                          <button class="amount-btn">₹100</button>
+                          <button class="amount-btn">₹200</button>
+                          <button class="amount-btn">₹500</button>
+                          <button class="amount-btn">₹1,000</button>
                           <button class="amount-btn">₹5,000</button>
-                          <button class="amount-btn">₹6,000</button>
                         </div>
                       </div>
                       <div class="checked-box">
-                        <input type="checkbox" name="skipper1" id="skipper" checked="" />
-                        <label for="skipper"><span></span>Well, I'll generously add ₹20.00 per
-                          month to cover <br />
-                          transaction fees.</label>
+                        <input type="checkbox" name="skipper1" id="skipper" :checked = "checked" />
+                        <label for="skipper"><span></span>share your email for ETG certificate </label>
                       </div>
                       <form class="contact-form-validated donation-one__form" action="assets/inc/sendemail.php"
                         method="post" novalidate="novalidate">
                         <div class="row">
-                          <div class="col-xl-12">
+                          <div class="col-xl-6">
                             <div class="donation-one__input-box">
                               <h3 class="donation-one__input-title">Name</h3>
-                              <input type="text" name="name" id="name" placeholder="Inter Your Name" required="" />
+                              <input type="text" name="name" id="name" placeholder="Enter Your Name" required="" />
+                            </div>
+                          </div>
+                          <div class="col-xl-6">
+                            <div class="donation-one__input-box">
+                              <h3 class="donation-one__input-title">Email</h3>
+                              <input type="text" name="email" id="email" placeholder="Enter Your email" required="" />
                             </div>
                           </div>
                         </div>
                       </form>
                       <div class="result"></div>
-                      <p class="donation-one__text">
+                      <!-- <p class="donation-one__text">
                         Click to give in honor of other person
-                      </p>
+                      </p> -->
                       <div class="donation-one__btn-box">
                         <div class="donation-one__btn thm-btn">
                           <span id="donate-button">Donate Now</span>
@@ -644,7 +649,7 @@
               <div class="about-three__left-img-and-content">
                 <div class="about-three__left-content">
                   <p class="about-three__left-text">
-                     With compassion and dedication,
+                    With compassion and dedication,
                     Aliff Foundation is on a mission to make education a
                     reality for every child, one step at a time.
                   </p>
@@ -2211,62 +2216,70 @@
 
     const donate_button = document.querySelector("#donate-button");
     const name = document.querySelector("#name");
+    const email = document.querySelector("#email");
+
 
     function clearError(input) {
-  input.style.border = ""; 
-  const errorMessage = input.parentNode.querySelector(".error-message");
-  if (errorMessage) {
-    errorMessage.remove(); 
+      input.style.border = "";
+      const errorMessage = input.parentNode.querySelector(".error-message");
+      if (errorMessage) {
+        errorMessage.remove();
+      }
+    }
+
+
+    amount.addEventListener("input", function () {
+      clearError(amount);
+    });
+
+    const checkbox = document.querySelector("#skipper");
+    checkbox.addEventListener("change", function () {
+  let checked = false;
+
+  // Check if the email input has a value
+  if (!email.value.trim()) {
+    checked = false;
+    const error = document.createElement("div");
+        error.className = "error-message";
+        error.style.color = "red";
+        error.style.fontSize = "12px";
+        error.textContent = "Please enter a valid email.";
+        amount.parentNode.appendChild(error); 
+        hasError = true;
+  } else {
+    checked = true;
   }
-}
 
-amount.addEventListener("input", function () {
-  clearError(amount);
+  // Optionally, you can update the checkbox state programmatically
+  checkbox.checked = checked;
 });
-
-name.addEventListener("input", function () {
-  clearError(name);
-});
-
 
     donate_button.addEventListener("click", function (e) {
       const value = amount.value.replace(/[^\d]/g, "");
       const nameValue = name.value.trim();
       clearError(amount);
-      clearError(name);
 
-  let hasError = false;
+      let hasError = false;
 
-  // Validation: Check if name is empty
-  if (!nameValue) {
-    name.style.border = "2px solid red"; // Add red border to the name input
-    const error = document.createElement("div");
-    error.className = "error-message";
-    error.style.color = "red";
-    error.style.fontSize = "12px";
-    error.textContent = "Please enter your name.";
-    name.parentNode.appendChild(error); // Add error message below the name input
-    hasError = true;
-  }
+     
+      // Validation: Check if amount is empty or invalid
+      if (!value || parseInt(value) <= 0) {
+        amount.style.border = "2px solid red"; // Add red border to the amount input
+        const error = document.createElement("div");
+        error.className = "error-message";
+        error.style.color = "red";
+        error.style.fontSize = "12px";
+        error.textContent = "Please enter a valid donation amount.";
+        amount.parentNode.appendChild(error); // Add error message below the amount input
+        hasError = true;
+      }
 
-  // Validation: Check if amount is empty or invalid
-  if (!value || parseInt(value) <= 0) {
-    amount.style.border = "2px solid red"; // Add red border to the amount input
-    const error = document.createElement("div");
-    error.className = "error-message";
-    error.style.color = "red";
-    error.style.fontSize = "12px";
-    error.textContent = "Please enter a valid donation amount.";
-    amount.parentNode.appendChild(error); // Add error message below the amount input
-    hasError = true;
-  }
+      if (hasError) {
+        e.preventDefault(); // Stop execution if there are validation errors
+        return;
+      }
 
-  if (hasError) {
-    e.preventDefault(); // Stop execution if there are validation errors
-    return;
-  }
-
-      const amountInPaise = parseInt(value) * 100; 
+      const amountInPaise = parseInt(value) * 100;
       var options = {
         "key": "rzp_test_XIOTnFO0wV89vL",
         "amount": amountInPaise,
